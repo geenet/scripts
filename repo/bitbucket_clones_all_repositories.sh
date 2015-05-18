@@ -13,6 +13,13 @@ Usage:
 Example:
    ./bitbucket_clones_all_repositories.sh geenet ~/code/bitbucket/
 
+REMOTELY
+
+export user_name=<user_name>;wget -qO- https://raw.githubusercontent.com/guguncube/jobs/master/repo/bitbucket_clones_all_repositories.sh|/bin/bash
+
+Example:
+export user_name=guguncube;wget -qO- https://raw.githubusercontent.com/guguncube/jobs/master/repo/bitbucket_clones_all_repositories.sh|/bin/bash
+
 
 EOM
 
