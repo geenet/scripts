@@ -18,7 +18,7 @@ EOM
 
 user_name="${user_name}"
 if [ -z "$user_name" ]; then
-   user_name="${1}"
+    user_name="${1}"
 fi;
 #user_name="${1}"
 destination="${2}"
@@ -27,12 +27,12 @@ destination="${2}"
 #echo "##$url?page=1&per_page=100#";
 
 if [ -z "$user_name" ]; then
-   echo "$HELPTEXT"
-   exit;
+    echo "$HELPTEXT"
+    exit;
 fi;
 
 if [ -z "$destination" ]; then
-   destination='./';
+    destination='./';
 fi;
 
 echo "cloning bitbucket user ${user_name} repos to $destination ..."
