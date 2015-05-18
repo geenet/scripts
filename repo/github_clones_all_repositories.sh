@@ -18,7 +18,13 @@ Example:
  See also: https://developer.github.com/v3/#rate-limiting 
  
 EOM
-user_name="${1}"
+
+#user_name="${1}"
+user_name="${user_name}"
+if [ -z "$user_name" ]; then
+   user_name="${1}"
+fi;
+
 destination="${2}"
 url="https://api.github.com/users/${user_name}/repos";
 max_pages=$(curl -sI "$url?page=1&per_page=100" | sed -nr 's/^Link:.*page=([0-9]+)&per_page=100>; rel="last".*/\1/p');
@@ -41,12 +47,12 @@ echo "cloning github user ${user_name} repos to $destination ..."
 mkdir -p "$destination"
 cd "$destination"
 
-
 for ((i=1; i<=$max_pages; i++)); do
    https_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "(.*)",/git clone \1/p');
    #git clone https://github.com/guguncube/bash.git
 
-   ssh_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "https:\/\/(.*)",/git clone ssh:\/\/git@\1/p');
+   ssh_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "ssh_url" | sed -nr 's/.*ssh_url": "(.*)",/git clone \1/p');
+   #ssh_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "https:\/\/(.*)",/git clone ssh:\/\/git@\1/p');
    #git clone ssh://git@github.com/username/repo.git
 
    repo_list="$ssh_repo_list"
