@@ -16,7 +16,11 @@ Example:
 
 EOM
 
-user_name="${1}"
+user_name="${user_name}"
+if [ -z "$user_name" ]; then
+   user_name="${1}"
+fi;
+#user_name="${1}"
 destination="${2}"
 #url="https://api.github.com/users/${user_name}/repos";
 #max_pages=$(curl -sI "$url?page=1&per_page=100" | sed -nr 's/^Link:.*page=([0-9]+)&per_page=100>; rel="last".*/\1/p');
