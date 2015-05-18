@@ -43,9 +43,18 @@ cd "$destination"
 
 
 for ((i=1; i<=$max_pages; i++)); do
-   repo_list_in_page=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "(.*)",/git clone \1/p');
-   echo "$repo_list_in_page"
-   /bin/bash -c "$repo_list_in_page";
+   https_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "(.*)",/git clone \1/p');
+   ssh_repo_list=$(curl -s "$url?page=${i}&per_page=100" | grep "clone_url" | sed -nr 's/.*clone_url": "https:\/\/(.*)",/git clone ssh:\/\/git@\1/p');
+   repo_list="$ssh_repo_list"
+   #repo_list="$https_repo_list"
+   #ssh_repo_list=$(cat $https_repo_list| sed -nr 's/.*clone_url": "(https:\/\/)",/git clone \1/p');
+   #https://github.com/
+   #
+   #ssh://git@github.com/
+   #git clone https://github.com/guguncube/bash.git
+   #git clone ssh://git@github.com/username/repo.git
+   echo "$repo_list"
+   /bin/bash -c "$repo_list";
 done
 
 echo "done"
